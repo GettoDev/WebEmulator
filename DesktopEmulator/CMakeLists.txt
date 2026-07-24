@@ -228,7 +228,6 @@ set(EMULATOR_LIBS
     osdialog
     imgui
     V32ConsoleLogic
-    tinyxml2
     ${OPENGL_LIBRARIES}
     ${SDL2_LIBRARY}
     ${PNG_LIBRARY}

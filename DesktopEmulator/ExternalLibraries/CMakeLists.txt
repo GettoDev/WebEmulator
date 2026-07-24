@@ -28,7 +28,3 @@ else()
         osdialog/osdialog.c
         osdialog/osdialog_${OSDIALOG_TARGET}.c)
 endif()
-
-# XML library tinyxml2
-# (use the modified CMake script in its folder)
-add_subdirectory(tinyxml2)
