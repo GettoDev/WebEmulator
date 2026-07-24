@@ -214,7 +214,6 @@ set(EMULATOR_SRC
     ${EMULATOR_DIR}/GUI.cpp
     ${EMULATOR_DIR}/Languages.cpp
     ${EMULATOR_DIR}/Main.cpp
-    ${EMULATOR_DIR}/Savestates.cpp
     ${EMULATOR_DIR}/Settings.cpp
     ${EMULATOR_DIR}/StopWatch.cpp
     ${EMULATOR_DIR}/Texture.cpp
@@ -287,13 +286,4 @@ endif()
 if(TARGET_OS STREQUAL "linux" OR TARGET_OS STREQUAL "mac")
     # Allow emulator to create the debug log
     install(CODE "execute_process(COMMAND chmod 777 ${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}/Emulator)")
-    
-    # Allow emulator to save settings
-    install(CODE "execute_process(COMMAND chmod 777 ${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}/Emulator/Config-Controls.xml)")
-    install(CODE "execute_process(COMMAND chmod 777 ${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}/Emulator/Config-Settings.xml)")
-    
-    # Allow emulator to create memory cards, savestates and screenshots
-    install(CODE "execute_process(COMMAND chmod 777 ${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}/Emulator/Cards)")
-    install(CODE "execute_process(COMMAND chmod 777 ${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}/Emulator/Savestates)")
-    install(CODE "execute_process(COMMAND chmod 777 ${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}/Emulator/Screenshots)")
 endif()

@@ -104,8 +104,6 @@ Command button
     
       - Command + Start: Quit emulator
       - Command + X: Reset
-      - Command + L: Save state
-      - Command + R: Load state
     
     These combinations can be used from any of the 4 console
     gamepads. The intended way to press a combination is to
@@ -145,28 +143,6 @@ How to use memory cards
     data in the card does not belong to other cartridges, but
     there is no guarantee that it actually will.
 
-------------------------------------------------------------
-
-How to use savestates
-    
-    Savestates allow you to save the whole state of the console
-    at any moment while playing a game, and then load it at a
-    later time. This will let you continue playing later, even
-    if the game itself does not allow you to save the game.
-    
-    There are 4 savestate slots for each game. By default you
-    use slot 1 but you can select another slot using the menus.
-    When you load and save state be careful to do it from the
-    correct slot, since these actions cannot be undone!
-    
-    Note that savestates do not save the screen contents,
-    which are persistent on Vircon32. This is done on purpose
-    to reduce savestate size and complexity. Most games will
-    update the screen every frame, but in a few cases your
-    screen will not immediately reflect the changes after
-    loading a savestate. Especially if you saved a state
-    during menus or screen transitions.
-    
 ------------------------------------------------------------
 
 What's new in version 26.02.18?

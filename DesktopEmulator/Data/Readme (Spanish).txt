@@ -105,8 +105,6 @@ Botón de Comando
     
       - Comando + Start: Cerrar emulador
       - Comando + X: Reset
-      - Comando + L: Guardar estado
-      - Comando + R: Cargar estado
     
     Estas combinaciones pueden usarse desde cualquiera de los
     4 mandos de la consola. La forma de pulsar una combinación
@@ -151,28 +149,6 @@ Cómo usar tarjetas de memoria
     comprobar si los datos de la tarjeta pertenecen a otros
     cartuchos, pero no hay garantías de que realmente lo hagan.
 
-------------------------------------------------------------
-
-Cómo usar savestates
-    
-    Los savestates (estados) te permiten guardar el estado de
-    la consola durante el juego en cualquier momento, y luego
-    cargarlo más tarde. Así puedes continuar jugando después,
-    incluso en juegos que no permiten guardar la partida.
-    
-    Hay 4 ranuras para estados en cada juego. Por defecto se
-    usa la ranura 1 pero puedes elegir otra usando los menús.
-    ¡Ten cuidado de usar la ranura correcta cuando cargas o
-    guardas estado, pues estas acciones no se pueden deshacer!
-    
-    Ten en cuenta que los estados no guardan el contenido de
-    la pantalla, que en Vircon32 es persistente. Esto es así a
-    propósito para reducir tamaño y complejidad de los estados.
-    Casi todos los juegos redibujan la pantalla cada frame,
-    pero en unos pocos casos puede que tras cargar un estado
-    la pantalla no se actualice inmediatamente. Especialmente
-    si guardaste un estado en menús o transiciones de pantalla.
-    
 ------------------------------------------------------------
 
 Novedades en la versión 26.02.18

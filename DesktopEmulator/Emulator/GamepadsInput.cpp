@@ -445,32 +445,6 @@ void GamepadsInput::ProcessJoystickAxisMotion( SDL_Event Event )
                     Console.Reset();
               }
             
-            // hold Command + press L = Save state
-            if( JoystickProfile->ButtonL.IsAxis() )
-              if( AxisIndex == JoystickProfile->ButtonL.AxisIndex )
-              {
-                  bool IsPressed = JoystickProfile->ButtonL.AxisPositive? PositivePressed : NegativePressed;
-                  
-                  if( IsPressed )
-                  {
-                      GUI_SaveState();
-                      CancelDelayedMessageBox();  // for these combinations inhibit any GUI messages
-                  }
-              }
-            
-            // hold Command + press R = Load state
-            if( JoystickProfile->ButtonR.IsAxis() )
-              if( AxisIndex == JoystickProfile->ButtonR.AxisIndex )
-              {
-                  bool IsPressed = JoystickProfile->ButtonR.AxisPositive? PositivePressed : NegativePressed;
-                  
-                  if( IsPressed && CommandPressed[ Gamepad ] )
-                  {
-                      GUI_LoadState();
-                      CancelDelayedMessageBox();  // for these combinations inhibit any GUI messages
-                  }
-              }
-            
             // hold Command + press Start = Quit emulator
             if( JoystickProfile->ButtonStart.IsAxis() )
               if( AxisIndex == JoystickProfile->ButtonStart.AxisIndex )
@@ -590,32 +564,6 @@ void GamepadsInput::ProcessJoystickHatMotion( SDL_Event Event )
                     Console.Reset();
               }
             
-            // hold Command + press L = Save state
-            if( JoystickProfile->ButtonL.IsHat() )
-              if( HatIndex == JoystickProfile->ButtonL.HatIndex )
-              {
-                  bool IsPressed = (bool)(HatDirection & JoystickProfile->ButtonL.HatDirection);
-                  
-                  if( IsPressed )
-                  {
-                      GUI_SaveState();
-                      CancelDelayedMessageBox();  // for these combinations inhibit any GUI messages
-                  }
-              }
-            
-            // hold Command + press R = Load state
-            if( JoystickProfile->ButtonR.IsHat() )
-              if( HatIndex == JoystickProfile->ButtonR.HatIndex )
-              {
-                  bool IsPressed = (bool)(HatDirection & JoystickProfile->ButtonR.HatDirection);
-                  
-                  if( IsPressed && CommandPressed[ Gamepad ] )
-                  {
-                      GUI_LoadState();
-                      CancelDelayedMessageBox();  // for these combinations inhibit any GUI messages
-                  }
-              }
-            
             // hold Command + press Start = Quit emulator
             if( JoystickProfile->ButtonStart.IsHat() )
               if( HatIndex == JoystickProfile->ButtonStart.HatIndex )
@@ -724,22 +672,6 @@ void GamepadsInput::ProcessJoystickButtonDown( SDL_Event Event )
             if( JoystickProfile->ButtonX.IsButton() )
               if( ButtonIndex == JoystickProfile->ButtonX.ButtonIndex )
                 Console.Reset();
-            
-            // hold Command + press L = Save state
-            if( JoystickProfile->ButtonL.IsButton() )
-              if( ButtonIndex == JoystickProfile->ButtonL.ButtonIndex )
-              {
-                  GUI_SaveState();
-                  CancelDelayedMessageBox();  // for these combinations inhibit any GUI messages
-              }
-            
-            // hold Command + press R = Load state
-            if( JoystickProfile->ButtonR.IsButton() )
-              if( ButtonIndex == JoystickProfile->ButtonR.ButtonIndex )
-              {
-                  GUI_LoadState();
-                  CancelDelayedMessageBox();  // for these combinations inhibit any GUI messages
-              }
             
             // hold Command + press Start = Quit emulator
             if( JoystickProfile->ButtonStart.IsButton() )
@@ -921,20 +853,6 @@ void GamepadsInput::ProcessKeyDown( SDL_Event Event )
             // hold Command + press X = Reset
             if( KeyCode == KeyboardProfile.ButtonX )
               Console.Reset();
-            
-            // hold Command + press L = Save state
-            if( KeyCode == KeyboardProfile.ButtonL )
-            {
-                GUI_SaveState();
-                CancelDelayedMessageBox();  // for these combinations inhibit any GUI messages
-            }
-            
-            // hold Command + press R = Load state
-            if( KeyCode == KeyboardProfile.ButtonR )
-            {
-                GUI_LoadState();
-                CancelDelayedMessageBox();  // for these combinations inhibit any GUI messages
-            }
             
             // hold Command + press Start = Quit emulator
             if( KeyCode == KeyboardProfile.ButtonStart )
