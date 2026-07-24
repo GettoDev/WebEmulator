@@ -216,7 +216,6 @@ set(EMULATOR_SRC
     ${EMULATOR_DIR}/Main.cpp
     ${EMULATOR_DIR}/Settings.cpp
     ${EMULATOR_DIR}/StopWatch.cpp
-    ${EMULATOR_DIR}/Texture.cpp
     ${EMULATOR_DIR}/VideoOutput.cpp
     ${INFRASTRUCTURE_DIR}/FilePaths.cpp
     ${INFRASTRUCTURE_DIR}/Logger.cpp

@@ -12,7 +12,6 @@
     #include "GamepadsInput.hpp"
     #include "VideoOutput.hpp"
     #include "AudioOutput.hpp"
-    #include "Texture.hpp"
     #include "Globals.hpp"
     #include "Settings.hpp"
     #include "Languages.hpp"
@@ -574,15 +573,14 @@ void ShowEmulatorWindow()
     Video.SetMultiplyColor( GPUColor{ 255, 255, 255, 255 } );
     Video.SetBlendingMode( IOPortValues::GPUBlendingMode_Alpha );
     
-    // if the emulator is on, draw its display
-    // on our window; otherwise just show a "no
-    // signal" indicator on a black screen
+    // if the emulator is on, draw its display on
+    // our window; otherwise just show a black screen
     Video.RenderToScreen();
     
     if( Emulator.IsPowerOn() )
       Video.DrawFramebufferOnScreen();
     else
-      NoSignalTexture.Draw( 0, 0, Constants::ScreenWidth, Constants::ScreenHeight );
+      Video.ClearScreen( GPUColor{ 0, 0, 0, 255 } );
     
     // if GUI is showing, darken the screen
     if( GUIMustBeDrawn() )

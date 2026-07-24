@@ -16,7 +16,6 @@
     #include "Globals.hpp"
     #include "Languages.hpp"
     #include "StopWatch.hpp"
-    #include "Texture.hpp"
     
     // include C/C++ headers
     #include <iostream>         // [ C++ STL ] I/O Streams
@@ -221,27 +220,6 @@ int main( int NumberOfArguments, char* Arguments[] )
         // initialize languages
         Languages[ "English" ] = LanguageEnglish;
         Languages[ "Spanish" ] = LanguageSpanish;
-        
-        // load decoration images, but do not crash
-        // just because any of them are not found
-        try
-        {
-            // on non-windows systems load and set the window icon
-            // (not needed on Windows: already packed in the executable)
-            #if !defined(WINDOWS_OS)            
-              string IconPath = string(EmulatorFolder) + "Images" + PathSeparator + "Vircon32WindowIcon.bmp";
-              SDL_Surface* WindowIcon = SDL_LoadBMP( IconPath.c_str() );
-              SDL_SetWindowIcon( Video.GetWindow(), WindowIcon );
-              LOG( "Loaded program icon" );
-            #endif
-            
-            // load the no signal image
-            NoSignalTexture.Load( string(EmulatorFolder) + "Images" + PathSeparator + "NoSignal.bmp" );
-        }
-        catch( exception& e )
-        {
-            LOG( "Cannot set window icon: " + string(e.what()) );
-        }
         
         // set our default settings
         SetDefaultSettings();

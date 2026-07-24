@@ -10,7 +10,6 @@
     #include "GamepadsInput.hpp"
     #include "VideoOutput.hpp"
     #include "AudioOutput.hpp"
-    #include "Texture.hpp"
     #include "Globals.hpp"
     
     // declare used namespaces
@@ -43,9 +42,6 @@ EmulatorControl Emulator;
 VideoOutput Video;
 AudioOutput Audio;
 GamepadsInput Gamepads;
-
-// video resources
-Texture NoSignalTexture;
 
 
 // =============================================================================

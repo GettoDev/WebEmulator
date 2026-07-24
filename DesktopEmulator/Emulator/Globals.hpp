@@ -17,7 +17,6 @@
     class GamepadsInput;
     class VideoOutput;
     class AudioOutput;
-    class Texture;
 // *****************************************************************************
 
 
@@ -46,9 +45,6 @@ extern EmulatorControl Emulator;
 extern VideoOutput Video;
 extern AudioOutput Audio;
 extern GamepadsInput Gamepads;
-
-// video resources
-extern Texture NoSignalTexture;
 
 
 // =============================================================================
