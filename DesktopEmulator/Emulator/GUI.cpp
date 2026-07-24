@@ -70,28 +70,15 @@ void ShowDelayedMessageBox()
       return;
     
     // check current state to restore later
-    bool WasFullScreen = Video.IsFullScreen();
     bool WasRunning = Emulator.IsPowerOn() && !Emulator.IsPaused();
     
     if( WasRunning )
       Emulator.Pause();
     
-    if( WasFullScreen )
-    {
-        SetWindowZoom( 2 );
-        SDL_GL_SwapWindow( Video.GetWindow() );
-    }
-    
     SDL_ShowSimpleMessageBox( MessageBoxFlags, MessageBoxTitle, MessageBoxMessage, nullptr );
     MessageBoxPending = false;
     
     // restore previous state if needed
-    if( WasFullScreen )
-    {
-        //SetFullScreen();
-        SDL_GL_SwapWindow( Video.GetWindow() );
-    }
-    
     if( WasRunning )
       Emulator.Resume();
 }
@@ -111,9 +98,9 @@ void CancelDelayedMessageBox()
 // are better understood as their own separate functions
 
 
-void SetWindowZoom( int ZoomFactor )
+void SetWindowZoom1X()
 {
-    LOG( "Setting window zoom x" + to_string(ZoomFactor) );
+    LOG( "Setting window zoom x1" );
     
     // pause emulation at window events to
     // ensure sound is restored after them
@@ -123,34 +110,10 @@ void SetWindowZoom( int ZoomFactor )
       Emulator.Pause();
     
     // set the zoom
-    Video.SetWindowZoom( ZoomFactor );
+    Video.SetWindowZoom( 1 );
     
     // scale ImGui
     ImGui::GetIO().FontGlobalScale = Video.GetWindowZoom();
-    
-    // resume emulation if needed
-    if( WasRunning )
-      Emulator.Resume();
-}
-
-// -----------------------------------------------------------------------------
-
-void SetFullScreen()
-{
-    LOG( "Setting fullscreen" );
-    
-    // pause emulation at window events to
-    // ensure sound is restored after them
-    bool WasRunning = Emulator.IsPowerOn() && !Emulator.IsPaused();
-    
-    if( WasRunning )
-      Emulator.Pause();
-    
-    // set full screen
-    Video.SetFullScreen();
-    
-    // scale ImGui
-    ImGui::GetIO().FontGlobalScale = Video.GetRelativeWindowWidth();
     
     // resume emulation if needed
     if( WasRunning )
@@ -650,23 +613,6 @@ void ProcessMenuOptions()
     if( !ImGui::BeginMenu( Texts(TextIDs::Menus_Options) ) )
       return;
     
-    if( ImGui::BeginMenu( Texts(TextIDs::Options_VideoSize) ) )
-    {
-        if( ImGui::MenuItem( "x1  (Ctrl+1)" ) )
-          SetWindowZoom( 1 );
-          
-        if( ImGui::MenuItem( "x2  (Ctrl+2)" ) )
-          SetWindowZoom( 2 );
-        
-        if( ImGui::MenuItem( "x3  (Ctrl+3)" ) )
-          SetWindowZoom( 3 );
-        
-        if( ImGui::MenuItem( Texts(TextIDs::Options_FullScreen) ) )
-          SetFullScreen();
-        
-        ImGui::EndMenu();
-    }
-    
     if( ImGui::BeginMenu( Texts(TextIDs::Options_SoundVolume) ) )
     {
         // process volume slider
@@ -801,9 +747,6 @@ void ProcessLabelCPU()
 // sensible policy to decide when it is actually needed
 bool GUIMustBeDrawn()
 {
-    if( Video.IsFullScreen() )
-      return ImGui::GetIO().WantCaptureMouse;
-    
     return MouseIsOnWindow;
 }
 

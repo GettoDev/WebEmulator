@@ -429,22 +429,6 @@ int main( int NumberOfArguments, char* Arguments[] )
                                 GUI_UnloadCartridge();
                         }
                         
-                        // Ctrl+1 = Zoom 1X
-                        if( Key == SDLK_1 )
-                          SetWindowZoom( 1 );
-                        
-                        // Ctrl+2 = Zoom 2X
-                        if( Key == SDLK_2 )
-                          SetWindowZoom( 2 );
-                        
-                        // Ctrl+3 = Zoom 3X
-                        if( Key == SDLK_3 )
-                          SetWindowZoom( 3 );
-                        
-                        // Ctrl+F = Fullscreen
-                        if( Key == SDLK_f )
-                          ; //SetFullScreen();
-                        
                         // Ctrl+M = Mute toggle
                         if( Key == SDLK_m )
                           Audio.SetMute( !Audio.IsMuted() );

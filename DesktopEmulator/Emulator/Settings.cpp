@@ -33,7 +33,7 @@
 void SetDefaultSettings()
 {
     // video configuration
-    SetWindowZoom( 1 );
+    SetWindowZoom1X();
     
     // audio configuration
     Audio.SetMute( false );

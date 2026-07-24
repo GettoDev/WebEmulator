@@ -124,7 +124,6 @@ const string FragmentShaderCode =
 VideoOutput::VideoOutput()
 {
     // window defaults to 1X, windowed
-    FullScreen = false;
     WindowedZoomFactor = 1;
     WindowWidth  = WindowedZoomFactor * Constants::ScreenWidth;
     WindowHeight = WindowedZoomFactor * Constants::ScreenHeight;
@@ -637,10 +636,6 @@ GLuint VideoOutput::GetFramebufferID()
 
 void VideoOutput::SetWindowZoom( int ZoomFactor )
 {
-    // exit full screen
-    SDL_SetWindowFullscreen( Window, 0 );
-    FullScreen = false;
-    
     // determine window size
     WindowedZoomFactor = ZoomFactor;
     WindowWidth  = Constants::ScreenWidth * WindowedZoomFactor;
@@ -656,26 +651,6 @@ void VideoOutput::SetWindowZoom( int ZoomFactor )
 int VideoOutput::GetWindowZoom()
 {
     return WindowedZoomFactor;
-}
-
-// -----------------------------------------------------------------------------
-
-void VideoOutput::SetFullScreen()
-{
-    // set SDL window to full screen mode
-    // (this flag means that we keep the desktop video mode)
-    SDL_SetWindowFullscreen( Window, SDL_WINDOW_FULLSCREEN_DESKTOP );
-    FullScreen = true;
-    
-    // update our window size variables to desktop size
-    SDL_GetWindowSize( Window, (int*)(&WindowWidth), (int*)(&WindowHeight) );
-}
-
-// -----------------------------------------------------------------------------
-
-bool VideoOutput::IsFullScreen()
-{
-    return FullScreen;
 }
 
 // -----------------------------------------------------------------------------

@@ -24,7 +24,7 @@ void CancelDelayedMessageBox();
 // =============================================================================
 
 
-void SetWindowZoom( int ZoomFactor );
+void SetWindowZoom1X();
 std::string GetAutomaticMemoryCardPath( const std::string& CartridgePath );
 
 

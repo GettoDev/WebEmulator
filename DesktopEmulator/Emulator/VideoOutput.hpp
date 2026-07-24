@@ -42,7 +42,6 @@ class VideoOutput
         unsigned WindowWidth;
         unsigned WindowHeight;
         unsigned WindowedZoomFactor;
-        bool FullScreen;
         
         // arrays to hold buffer info
         GLfloat QuadVerticesInfo[ 16 * QUAD_QUEUE_SIZE ];
@@ -104,8 +103,6 @@ class VideoOutput
         // view configuration
         void SetWindowZoom( int ZoomFactor );
         int GetWindowZoom();
-        void SetFullScreen();
-        bool IsFullScreen();
         float GetRelativeWindowWidth();
         
         // framebuffer render functions
