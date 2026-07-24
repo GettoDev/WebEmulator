@@ -17,21 +17,11 @@
 
 
 // =============================================================================
-//      LOAD INPUT DEVICES FROM XML FILE
-// =============================================================================
-
-
-void LoadControls( const std::string& FilePath );
-
-
-// =============================================================================
-//      LOAD & SAVE SETTINGS FROM XML FILES
+//      SET DEFAULT EMULATOR SETTINGS
 // =============================================================================
 
 
 void SetDefaultSettings();
-void LoadSettings( const std::string& FilePath );
-void SaveSettings( const std::string& FilePath );
 
 
 // *****************************************************************************

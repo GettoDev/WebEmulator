@@ -255,9 +255,8 @@ int main( int NumberOfArguments, char* Arguments[] )
             LOG( "Cannot set window icon: " + string(e.what()) );
         }
         
-        // load our configuration from XML files
-        LoadControls( EmulatorFolder + "Config-Controls.xml" );
-        LoadSettings( EmulatorFolder + "Config-Settings.xml" );
+        // set our default settings
+        SetDefaultSettings();
         
         // initialize the window
         string WindowTitle = string("Vircon32: ") + Texts( TextIDs::Status_NoCartridge );
@@ -525,9 +524,6 @@ int main( int NumberOfArguments, char* Arguments[] )
         
         // turn off Vircon VM
         Emulator.Terminate();
-        
-        // save settings
-        SaveSettings( EmulatorFolder + "Config-Settings.xml" );
         
         // free scene resources
         LOG( "---------------------------------------------------------------------" );
