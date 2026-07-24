@@ -30,9 +30,8 @@ set(PROJECT_VERSION_MAJOR 26)
 set(PROJECT_VERSION_MINOR 2)
 set(PROJECT_VERSION_PATCH 18)
 
-# Set names for final executables
-set(EMULATOR_BINARY_NAME "Vircon32")
-set(EDITCONTROLS_BINARY_NAME "EditControls")
+# Set name for final executable
+set(EMULATOR_BINARY_NAME "Vircon32Web")
 
 # -----------------------------------------------------
 #   IDENTIFY HOST ENVIRONMENT
@@ -68,8 +67,6 @@ set(EMULATOR_DIR "Emulator/"
     CACHE PATH "The path to the emulator sources.")
 set(CONSOLELOGIC_DIR "ConsoleLogic/"
     CACHE PATH "The path to the core console logic sources.")
-set(EDITCONTROLS_DIR "ControlsEditor/"
-    CACHE PATH "The path to EditControls sources.")
 set(INFRASTRUCTURE_DIR "DesktopInfrastructure/"
     CACHE PATH "The path to desktop infrastructure sources.")
 set(DEFINITIONS_DIR "../VirconDefinitions/"
@@ -238,16 +235,6 @@ set(EMULATOR_LIBS
     glad
     ${CMAKE_DL_LIBS})
 
-# Libraries to link with the EditControls tool
-set(EDITCONTROLS_LIBS
-    osdialog
-    imgui
-    tinyxml2
-    ${OPENGL_LIBRARIES}
-    ${SDL2_LIBRARY}
-    glad
-    ${CMAKE_DL_LIBS})
-
 # -----------------------------------------------------
 #   SOURCE FILES
 # -----------------------------------------------------
@@ -270,24 +257,11 @@ set(EMULATOR_SRC
     ${INFRASTRUCTURE_DIR}/Logger.cpp
     ${INFRASTRUCTURE_DIR}/StringFunctions.cpp)
 
-# Source files to compile for the EditControls tool
-set(EDITCONTROLS_SRC
-    ${EDITCONTROLS_DIR}/Controls.cpp
-    ${EDITCONTROLS_DIR}/Globals.cpp
-    ${EDITCONTROLS_DIR}/GUI.cpp
-    ${EDITCONTROLS_DIR}/Languages.cpp
-    ${EDITCONTROLS_DIR}/Main.cpp
-    ${EDITCONTROLS_DIR}/OpenGL2DContext.cpp
-    ${EDITCONTROLS_DIR}/LoadTexture.cpp
-    ${INFRASTRUCTURE_DIR}/FilePaths.cpp
-    ${INFRASTRUCTURE_DIR}/Logger.cpp
-    ${INFRASTRUCTURE_DIR}/StringFunctions.cpp)
-
 # -----------------------------------------------------
 #   EXECUTABLES
 # -----------------------------------------------------
 
-# Both emulator and EditControls should be GUI-only applications.
+# The emulator should be a GUI-only application.
 # This setting will prevent creation of an additional console window
 # (removed for now on Mac, would be MACOSX_BUNDLE)
 if(TARGET_OS STREQUAL "windows")
@@ -303,29 +277,19 @@ set_property(TARGET ${EMULATOR_BINARY_NAME} PROPERTY CXX_STANDARD 11)
 # Libraries to link to the emulator executable
 target_link_libraries(${EMULATOR_BINARY_NAME} ${EMULATOR_LIBS})
 
-# Define final executable for the EditControls tool
-add_executable(${EDITCONTROLS_BINARY_NAME} ${GUI_TYPE} ${EDITCONTROLS_SRC})
-set_property(TARGET ${EDITCONTROLS_BINARY_NAME} PROPERTY CXX_STANDARD 11)
-
-# Libraries to link to the EditControls executable
-target_link_libraries(${EDITCONTROLS_BINARY_NAME} ${EDITCONTROLS_LIBS})
-
-# On windows both binaries will also need this library
+# On windows the binary will also need this library
 if(TARGET_OS STREQUAL "windows")
     target_link_libraries(${EMULATOR_BINARY_NAME} imm32)
-    target_link_libraries(${EDITCONTROLS_BINARY_NAME} imm32)
 endif()
 
-# On linux both binaries will also need this set of libraries
+# On linux the binary will also need this set of libraries
 if(TARGET_OS STREQUAL "linux")
     target_link_libraries(${EMULATOR_BINARY_NAME} ${GTK_LIBRARIES})
-    target_link_libraries(${EDITCONTROLS_BINARY_NAME} ${GTK_LIBRARIES})
 endif()
 
-# On mac both binaries will also need this framework
+# On mac the binary will also need this framework
 if(TARGET_OS STREQUAL "mac")
     target_link_libraries(${EMULATOR_BINARY_NAME} "-framework AppKit")
-    target_link_libraries(${EDITCONTROLS_BINARY_NAME} "-framework AppKit")
 endif()
 
 # -----------------------------------------------------
@@ -339,13 +303,6 @@ if(TARGET_OS STREQUAL "windows")
         COMMAND ${CMAKE_SOURCE_DIR}/${PROGRAMS_DIR}/rcedit.exe $<TARGET_FILE:${EMULATOR_BINARY_NAME}> --set-version-string "ProductName" "Vircon32"
         COMMAND ${CMAKE_SOURCE_DIR}/${PROGRAMS_DIR}/rcedit.exe $<TARGET_FILE:${EMULATOR_BINARY_NAME}> --set-version-string "FileDescription" "Vircon32 console emulator"
         COMMAND ${CMAKE_SOURCE_DIR}/${PROGRAMS_DIR}/rcedit.exe $<TARGET_FILE:${EMULATOR_BINARY_NAME}> --set-version-string "CompanyName" "Javier Carracedo")
-    
-    # Application properties for the EditControls tool
-    add_custom_command(TARGET ${EDITCONTROLS_BINARY_NAME} POST_BUILD
-        COMMAND ${CMAKE_SOURCE_DIR}/${PROGRAMS_DIR}/rcedit.exe $<TARGET_FILE:${EDITCONTROLS_BINARY_NAME}> --set-icon ${CMAKE_SOURCE_DIR}/${DATA_DIR}/Images/EditControlsMultisize.ico
-        COMMAND ${CMAKE_SOURCE_DIR}/${PROGRAMS_DIR}/rcedit.exe $<TARGET_FILE:${EDITCONTROLS_BINARY_NAME}> --set-version-string "ProductName" "EditControls"
-        COMMAND ${CMAKE_SOURCE_DIR}/${PROGRAMS_DIR}/rcedit.exe $<TARGET_FILE:${EDITCONTROLS_BINARY_NAME}> --set-version-string "FileDescription" "Input controls editor for Vircon32 emulator"
-        COMMAND ${CMAKE_SOURCE_DIR}/${PROGRAMS_DIR}/rcedit.exe $<TARGET_FILE:${EDITCONTROLS_BINARY_NAME}> --set-version-string "CompanyName" "Javier Carracedo")
 endif()
 
 # -----------------------------------------------------
@@ -353,29 +310,29 @@ endif()
 # -----------------------------------------------------
 
 if(TARGET_OS STREQUAL "windows")
-    # Install both binaries
-    install(TARGETS ${EMULATOR_BINARY_NAME} ${EDITCONTROLS_BINARY_NAME}
+    # Install the binary
+    install(TARGETS ${EMULATOR_BINARY_NAME}
         RUNTIME
         COMPONENT binaries
-        DESTINATION Emulator)
+        DESTINATION WebEmulator)
 
     # Copy the needed data files
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${DATA_DIR}/
-        DESTINATION Emulator)
+        DESTINATION WebEmulator)
     
     # On Windows, copy the needed runtime files (DLLs)
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${RUNTIME_DIR}/
-        DESTINATION Emulator)
+        DESTINATION WebEmulator)
 else()
-    # Install both binaries
-    install(TARGETS ${EMULATOR_BINARY_NAME} ${EDITCONTROLS_BINARY_NAME}
+    # Install the binary
+    install(TARGETS ${EMULATOR_BINARY_NAME}
         RUNTIME
         COMPONENT binaries
-        DESTINATION ${CMAKE_PROJECT_NAME}/Emulator)
+        DESTINATION ${CMAKE_PROJECT_NAME}/WebEmulator)
 
     # Copy the needed data files
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${DATA_DIR}/
-        DESTINATION ${CMAKE_PROJECT_NAME}/Emulator)
+        DESTINATION ${CMAKE_PROJECT_NAME}/WebEmulator)
 endif()
 
 # Extra steps to configure the application on Linux
@@ -393,7 +350,7 @@ if(TARGET_OS STREQUAL "linux" OR TARGET_OS STREQUAL "mac")
     # Allow emulator to create the debug log
     install(CODE "execute_process(COMMAND chmod 777 ${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}/Emulator)")
     
-    # Allow emulator and editcontrols to save settings
+    # Allow emulator to save settings
     install(CODE "execute_process(COMMAND chmod 777 ${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}/Emulator/Config-Controls.xml)")
     install(CODE "execute_process(COMMAND chmod 777 ${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}/Emulator/Config-Settings.xml)")
     

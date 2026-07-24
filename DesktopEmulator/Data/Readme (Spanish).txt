@@ -85,11 +85,7 @@ Controles
       - Botón Start: Tecla 'Return'
 
     El emulador también soporta el uso de uno o más joysticks
-    (esta consola tiene 4 puertos para mandos). Los controles de
-    teclado y joysticks se pueden editar usando un segundo
-    programa incluido con este emulador, llamado EditControls.
-    Lee la ayuda de EditControls para aprender cómo configurar
-    tus dispositivos.
+    (esta consola tiene 4 puertos para mandos).
   
 ------------------------------------------------------------
 
@@ -100,12 +96,12 @@ Botón de Comando
     deseable tener acceso a ciertas funciones del emulador
     usando sólo los mandos.
     
-    Para permitir esto, el programa EditControls permite que
-    cada perfil de teclado/joystick defina y mapee un botón
-    adicional opcional llamado botón de Comando. Este botón no
-    es parte del mando de Vircon32, pero definirlo nos permite
-    invocar unas algunas funciones principales del emulador
-    usando las siguientes combinaciones de botones:
+    Para permitir esto, el emulador permite que cada perfil de
+    teclado/joystick defina y mapee un botón adicional opcional
+    llamado botón de Comando. Este botón no es parte del mando
+    de Vircon32, pero definirlo nos permite invocar unas
+    algunas funciones principales del emulador usando las
+    siguientes combinaciones de botones:
     
       - Comando + Start: Cerrar emulador
       - Comando + X: Reset

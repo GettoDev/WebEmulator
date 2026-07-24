@@ -84,10 +84,7 @@ Controls
       - Button Start: Key 'Return'
 
     The emulator also supports the use of one or more joysticks
-    (since this console has 4 gamepad ports). Keyboard and
-    joystick controls can be edited using a second program
-    included with this emulator, called EditControls. Read the
-    help in EditControls to learn how to configure your devices.
+    (since this console has 4 gamepad ports).
 
 ------------------------------------------------------------
 
@@ -98,7 +95,7 @@ Command button
     to be able to access certain emulator functions using only
     the gamepads.
     
-    To allow for this, the EditControls program allows every
+    To allow for this, the emulator program allows every
     keyboard/joystick profile to define and map an optional
     additional button called the Command button. This button
     is not part of the Vircon32 gamepad, but defining it will
