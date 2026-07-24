@@ -293,19 +293,6 @@ if(TARGET_OS STREQUAL "mac")
 endif()
 
 # -----------------------------------------------------
-#   ON WINDOWS, CONFIGURE APPLICATION PROPERTIES
-# -----------------------------------------------------
-
-if(TARGET_OS STREQUAL "windows")
-    # Application properties for the emulator
-    add_custom_command(TARGET ${EMULATOR_BINARY_NAME} POST_BUILD
-        COMMAND ${CMAKE_SOURCE_DIR}/${PROGRAMS_DIR}/rcedit.exe $<TARGET_FILE:${EMULATOR_BINARY_NAME}> --set-icon ${CMAKE_SOURCE_DIR}/${DATA_DIR}/Images/Vircon32Multisize.ico
-        COMMAND ${CMAKE_SOURCE_DIR}/${PROGRAMS_DIR}/rcedit.exe $<TARGET_FILE:${EMULATOR_BINARY_NAME}> --set-version-string "ProductName" "Vircon32"
-        COMMAND ${CMAKE_SOURCE_DIR}/${PROGRAMS_DIR}/rcedit.exe $<TARGET_FILE:${EMULATOR_BINARY_NAME}> --set-version-string "FileDescription" "Vircon32 console emulator"
-        COMMAND ${CMAKE_SOURCE_DIR}/${PROGRAMS_DIR}/rcedit.exe $<TARGET_FILE:${EMULATOR_BINARY_NAME}> --set-version-string "CompanyName" "Javier Carracedo")
-endif()
-
-# -----------------------------------------------------
 #   DEFINE THE INSTALL PROCESS
 # -----------------------------------------------------
 
@@ -335,16 +322,6 @@ else()
         DESTINATION ${CMAKE_PROJECT_NAME}/WebEmulator)
 endif()
 
-# Extra steps to configure the application on Linux
-if(TARGET_OS STREQUAL "linux")
-    # Install desktop entry
-    install(FILES Resources/Linux/Vircon32.desktop DESTINATION /usr/share/applications )
-
-    # Install icon
-    install(FILES Resources/Linux/Vircon32.svg DESTINATION /usr/share/pixmaps )
-    install(FILES Resources/Linux/Vircon32.svg DESTINATION /usr/share/icons/hicolor/scalable/apps/ )
-endif()
-
 # On Linux or Mac we will need to set install permissions
 if(TARGET_OS STREQUAL "linux" OR TARGET_OS STREQUAL "mac")
     # Allow emulator to create the debug log
@@ -358,42 +335,4 @@ if(TARGET_OS STREQUAL "linux" OR TARGET_OS STREQUAL "mac")
     install(CODE "execute_process(COMMAND chmod 777 ${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}/Emulator/Cards)")
     install(CODE "execute_process(COMMAND chmod 777 ${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}/Emulator/Savestates)")
     install(CODE "execute_process(COMMAND chmod 777 ${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}/Emulator/Screenshots)")
-endif()
-
-# -----------------------------------------------------
-#   DEFINE THE PACKAGE CREATION WITH CPACK
-# -----------------------------------------------------
-
-if(TARGET_OS STREQUAL "linux")
-
-    # define install directory
-    set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
-    set(CPACK_INSTALL_PREFIX "/usr/local")
-
-    # define base package info
-    set(CPACK_PACKAGE_NAME "vircon32-emulator")
-    set(CPACK_PACKAGE_VERSION "26.02.18")
-    set(CPACK_PACKAGE_VENDOR "Carra")
-    set(CPACK_PACKAGE_MAINTAINER "Carra")
-    set(CPACK_PACKAGE_LICENSE "BSD-3-Clause")
-    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Desktop emulator for Vircon32 console")
-    set(CPACK_PACKAGE_DESCRIPTION "This is the official Vircon32 desktop emulator for the Debian Linux family. Vircon32 is an open source, 32-bit virtual game console")
-    set(CPACK_PACKAGE_HOMEPAGE_URL "https://www.vircon32.com")
-    
-    # Set dependencies and package specific configuration
-    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
-    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Carra")
-    set(CPACK_DEBIAN_PACKAGE_SECTION "games")
-
-    set(CPACK_RPM_PACKAGE_AUTOREQ ON)
-    set(CPACK_RPM_PACKAGE_AUTOPROV ON)
-    set(CPACK_RPM_PACKAGE_NAME "vircon32-emulator")
-    set(CPACK_RPM_PACKAGE_LICENSE "BSD-3-Clause")
-    set(CPACK_RPM_PACKAGE_GROUP "Amusements/Games")
-
-    set(CPACK_GENERATOR "DEB;RPM;TGZ")
-
-    # finally this reads all CPack variables
-    include(CPack)
-
 endif()
