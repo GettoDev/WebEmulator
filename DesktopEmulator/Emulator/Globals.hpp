@@ -8,7 +8,6 @@
     
     // include C/C++ headers
     #include <map>          // [ C++ STL ] Maps
-    #include <list>         // [ C++ STL ] Lists
     #include <string>       // [ C++ STL ] Strings
     
     // forward declarations for all needed classes
@@ -34,10 +33,6 @@ extern std::string EmulatorFolder;
 extern std::string BiosFileName;
 
 // GUI settings
-extern std::list< std::string > RecentCartridgePaths;
-extern std::list< std::string > RecentMemoryCardPaths;
-extern std::string LastCartridgeDirectory;
-extern std::string LastMemoryCardDirectory;
 extern int SavestatesSlot;
 
 

@@ -160,144 +160,6 @@ void SetFullScreen()
 
 // -----------------------------------------------------------------------------
 
-void SaveScreenshot( const string& FilePath )
-{
-    LOG( "Saving a screenshot" );
-    
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // STEP 1: Read the contents of the framebuffer object
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    
-    // allocate space for the image
-    uint8_t* Pixels =  new uint8_t[ 4 * Constants::ScreenWidth * Constants::ScreenHeight ];
-    uint8_t** RowPointers = new uint8_t*[ Constants::ScreenHeight ];
-    
-    // images on framebuffer are rendered inverted in Y, so
-    // we invert the order of rows to reflect it back to normal
-    for( int y = 0; y < Constants::ScreenHeight; y++ )
-      RowPointers[ (Constants::ScreenHeight-1) - y ] = &Pixels[ 4 * Constants::ScreenWidth * y ];
-      
-    // dump content of framebuffer
-    glBindFramebuffer( GL_FRAMEBUFFER, Video.GetFramebufferID() );
-    glReadBuffer( GL_COLOR_ATTACHMENT0 );
-    glReadPixels( 0, 0, Constants::ScreenWidth, Constants::ScreenHeight, GL_RGBA, GL_UNSIGNED_BYTE, Pixels );
-    
-    // unbind framebuffer, since this function is called from GUI
-    glBindFramebuffer( GL_FRAMEBUFFER, 0 );
-    
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // STEP 2: Save those contents in PNG format
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    
-    // open output file
-    FILE *PNGFile = fopen( FilePath.c_str(), "wb" );
-    
-    if( !PNGFile )
-      THROW( "Cannot open output file" );
-    
-    // initialize PNG functions
-    png_struct* PNGHandler = png_create_write_struct( PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr );
-    
-    if( !PNGHandler )
-      THROW( "Cannot create PNG handler" );
-
-    png_info* PNGInfo = png_create_info_struct( PNGHandler );
-    
-    if( !PNGInfo )
-      THROW( "Cannot write PNG information" );
-
-    // define a callback function expected by libpng for error handling
-    if( setjmp( png_jmpbuf(PNGHandler) ) )
-      THROW( "Cannot initialize PNG error handling" );
-      
-    // begin writing
-    png_init_io( PNGHandler, PNGFile );
-
-    // define output as 8bit depth in RGBA format
-    png_set_IHDR
-    (
-        PNGHandler,
-        PNGInfo,
-        Constants::ScreenWidth,
-        Constants::ScreenHeight,
-        8,
-        PNG_COLOR_TYPE_RGBA,
-        PNG_INTERLACE_NONE,
-        PNG_COMPRESSION_TYPE_DEFAULT,
-        PNG_FILTER_TYPE_DEFAULT
-    );
-    
-    // write basic image info
-    png_write_info( PNGHandler, PNGInfo );
-    
-    // write the actual pixel data for all rows
-    png_write_image( PNGHandler, RowPointers );
-    
-    // end writing
-    png_write_end( PNGHandler, nullptr );
-    
-    // clean-up
-    fclose( PNGFile );
-    png_destroy_write_struct( &PNGHandler, &PNGInfo );
-    
-    delete [] Pixels;
-    delete [] RowPointers;
-}
-
-// -----------------------------------------------------------------------------
-
-void AddRecentCartridgePath( const string& CartridgePath )
-{
-    // avoid duplicates
-    RecentCartridgePaths.remove( CartridgePath );
-    RecentCartridgePaths.push_front( CartridgePath );
-    
-    // keep a maximum of 5 items
-    while( RecentCartridgePaths.size() > 5 )
-      RecentCartridgePaths.pop_back();
-}
-
-// -----------------------------------------------------------------------------
-
-void AddRecentMemoryCardPath( const string& MemoryCardPath )
-{
-    // avoid duplicates
-    RecentMemoryCardPaths.remove( MemoryCardPath );
-    RecentMemoryCardPaths.push_front( MemoryCardPath );
-    
-    // keep a maximum of 5 items
-    while( RecentMemoryCardPaths.size() > 5 )
-      RecentMemoryCardPaths.pop_back();
-}
-
-// -----------------------------------------------------------------------------
-
-void CheckCartridgePaths()
-{
-    for( auto Position = RecentCartridgePaths.begin(); Position != RecentCartridgePaths.end(); Position++ )
-      if( !FileExists( *Position ) )
-        Position = RecentCartridgePaths.erase( Position );
-        
-    // keep a maximum of 5 items
-    while( RecentCartridgePaths.size() > 5 )
-      RecentCartridgePaths.pop_back();
-}
-
-// -----------------------------------------------------------------------------
-
-void CheckMemoryCardPaths()
-{
-    for( auto Position = RecentMemoryCardPaths.begin(); Position != RecentMemoryCardPaths.end(); Position++ )
-      if( !FileExists( *Position ) )
-        Position = RecentMemoryCardPaths.erase( Position );
-    
-    // keep a maximum of 5 items
-    while( RecentMemoryCardPaths.size() > 5 )
-      RecentMemoryCardPaths.pop_back();
-}
-
-// -----------------------------------------------------------------------------
-
 // determine the path of the memory card corresponding to a given,
 // game file, taking into account the emulator's card directory
 // (this is only used when memory card handling is set to automatic)
@@ -404,11 +266,7 @@ void GUI_LoadMemoryCard( string MemoryCardPath )
     {
         if( !MemoryCardPath.empty() )
         {
-            LastMemoryCardDirectory = GetPathDirectory( MemoryCardPath );
             Console.LoadMemoryCard( MemoryCardPath );
-            
-            // update  list of recent cards
-            AddRecentMemoryCardPath( MemoryCardPath );
         }
     }
     
@@ -427,7 +285,6 @@ void GUI_ChangeMemoryCard( string MemoryCardPath )
     {
         if( !MemoryCardPath.empty() )
         {
-            LastMemoryCardDirectory = GetPathDirectory( MemoryCardPath );
             Console.UnloadMemoryCard();
             Console.LoadMemoryCard( MemoryCardPath );
         }
@@ -506,8 +363,6 @@ void GUI_LoadCartridge( string CartridgePath )
     {
         if( !CartridgePath.empty() )
         {
-            LastCartridgeDirectory = GetPathDirectory( CartridgePath );
-            
             Console.LoadCartridge( CartridgePath );
             Emulator.SetPower( true );
             
@@ -518,9 +373,6 @@ void GUI_LoadCartridge( string CartridgePath )
             // set window title
             string WindowTitle = string("Vircon32: ") + Console.GetCartridgeTitle();
             SDL_SetWindowTitle( Video.GetWindow(), WindowTitle.c_str() );
-            
-            // update list of recent roms
-            AddRecentCartridgePath( CartridgePath );
             
             // automatic card handling
             if( Emulator.IsCardHandlingAuto() )
@@ -543,8 +395,6 @@ void GUI_ChangeCartridge( string CartridgePath )
     {
         if( !CartridgePath.empty() )
         {
-            LastCartridgeDirectory = GetPathDirectory( CartridgePath );
-            
             Console.UnloadCartridge();
             Console.LoadCartridge( CartridgePath );
             Emulator.SetPower( true );
@@ -556,9 +406,6 @@ void GUI_ChangeCartridge( string CartridgePath )
             // set window title
             string WindowTitle = string("Vircon32: ") + Console.GetCartridgeTitle();
             SDL_SetWindowTitle( Video.GetWindow(), WindowTitle.c_str() );
-            
-            // update list of recent roms
-            AddRecentCartridgePath( CartridgePath );
             
             // automatic card handling
             if( Emulator.IsCardHandlingAuto() )
@@ -745,40 +592,6 @@ void ProcessMenuCartridge()
         ImGui::PopStyleVar();
     }
     
-    if( !Emulator.IsPowerOn() )
-    {
-        // show title for recent files list
-        ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
-        {
-            ImGui::Separator();
-            ImGui::Text( "%s", Texts(TextIDs::Cartridge_RecentTitle) );
-        
-            if( RecentCartridgePaths.empty() )
-              ImGui::Text( "%s", Texts(TextIDs::Cartridge_RecentEmpty) );
-        }
-        ImGui::PopStyleVar();
-        
-        // show the list of last files
-        int OrderNumber = 1;
-        
-        for( string& CartridgePath: RecentCartridgePaths )
-        {
-            string FileName = GetPathFileName( CartridgePath );
-            FileName = to_string( OrderNumber++ ) + ") " + FileName;
-            
-            if( ImGui::MenuItem( FileName.c_str() ) )
-            {
-                PendingAction = DelayedFileActions::ChangeCartridge;
-                PendingActionPath = CartridgePath;
-            }
-        }
-        
-        // add the option to clear the list
-        if( !RecentCartridgePaths.empty() )
-          if( ImGui::MenuItem( Texts(TextIDs::Cartridge_RecentClear) ) )
-            RecentCartridgePaths.clear();
-    }
-    
     ImGui::EndMenu();
 }
 
@@ -834,37 +647,6 @@ void ProcessMenuMemoryCard()
         if( ImGui::MenuItem( Texts(TextIDs::Card_Unload) ) )
           PendingAction = DelayedFileActions::UnloadMemoryCard;
     }
-    
-    // show title for recent files list
-    ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
-    {
-        ImGui::Separator();
-        ImGui::Text( "%s", Texts(TextIDs::Card_RecentTitle) );
-    
-        if( RecentCartridgePaths.empty() )
-          ImGui::Text( "%s", Texts(TextIDs::Card_RecentEmpty) );
-    }
-    ImGui::PopStyleVar();
-    
-    // show the list of last files
-    int OrderNumber = 1;
-    
-    for( string& MemoryCardPath: RecentMemoryCardPaths )
-    {
-        string FileName = GetPathFileName( MemoryCardPath );
-        FileName = to_string( OrderNumber++ ) + ") " + FileName;
-        
-        if( ImGui::MenuItem( FileName.c_str() ) )
-        {
-            PendingAction = DelayedFileActions::ChangeMemoryCard;
-            PendingActionPath = MemoryCardPath;
-        }
-    }
-    
-    // add the option to clear the list
-    if( !RecentMemoryCardPaths.empty() )
-      if( ImGui::MenuItem( Texts(TextIDs::Card_RecentClear) ) )
-        RecentMemoryCardPaths.clear();
     
     ImGui::EndMenu();
 }

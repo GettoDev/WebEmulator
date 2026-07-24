@@ -26,11 +26,6 @@ void CancelDelayedMessageBox();
 
 void SetWindowZoom( int ZoomFactor );
 void SetFullScreen();
-void SaveScreenshot( const std::string& FilePath );
-void AddRecentCartridgePath( const std::string& CartridgePath );
-void AddRecentMemoryCardPath( const std::string& MemoryCardPath );
-void CheckCartridgePaths();
-void CheckMemoryCardPaths();
 std::string GetAutomaticMemoryCardPath( const std::string& CartridgePath );
 std::string GetAutomaticSaveStatePath( const std::string& CartridgePath );
 

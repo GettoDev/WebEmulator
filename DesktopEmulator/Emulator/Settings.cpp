@@ -61,12 +61,4 @@ void SetDefaultSettings()
     
     // set default slot for savestates
     SavestatesSlot = 1;
-    
-    // set default load folders
-    LastCartridgeDirectory = EmulatorFolder;
-    LastMemoryCardDirectory = EmulatorFolder;
-    
-    // clear lists of recents
-    RecentCartridgePaths.clear();
-    RecentMemoryCardPaths.clear();
 }

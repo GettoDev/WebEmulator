@@ -30,10 +30,6 @@ string EmulatorFolder;
 string BiosFileName;
 
 // GUI settings
-list< string > RecentCartridgePaths;
-list< string > RecentMemoryCardPaths;
-string LastCartridgeDirectory;
-string LastMemoryCardDirectory;
 int SavestatesSlot;
 
 
@@ -66,12 +62,6 @@ void InitializeGlobalVariables()
     
     // default bios to load is standard bios
     BiosFileName = "StandardBios.v32";
-    
-    // we can safely use EmulatorFolder, it will
-    // be filled even before this function is
-    // called so that logging is initialized
-    LastCartridgeDirectory = EmulatorFolder;
-    LastMemoryCardDirectory = EmulatorFolder;
 }
 
 
