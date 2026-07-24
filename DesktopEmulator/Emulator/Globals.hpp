@@ -32,9 +32,6 @@ extern bool MouseIsOnWindow;
 extern std::string EmulatorFolder;
 extern std::string BiosFileName;
 
-// GUI settings
-extern int SavestatesSlot;
-
 
 // =============================================================================
 //      PROGRAM OBJECTS

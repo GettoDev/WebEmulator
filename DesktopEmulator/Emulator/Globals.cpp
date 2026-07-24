@@ -29,9 +29,6 @@ bool MouseIsOnWindow;
 string EmulatorFolder;
 string BiosFileName;
 
-// GUI settings
-int SavestatesSlot;
-
 
 // =============================================================================
 //      PROGRAM OBJECTS

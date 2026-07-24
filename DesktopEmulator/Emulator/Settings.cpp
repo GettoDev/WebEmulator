@@ -56,9 +56,6 @@ void SetDefaultSettings()
         Gamepads.MappedGamepads[ i ].Type = DeviceTypes::NoDevice;
     }
     
-    // set automatic memory card handling
-    Emulator.SetCardHandling( true );
-    
-    // set default slot for savestates
-    SavestatesSlot = 1;
+    // disable automatic memory card handling
+    Emulator.SetCardHandling( false );
 }
