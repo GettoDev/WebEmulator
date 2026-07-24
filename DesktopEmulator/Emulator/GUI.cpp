@@ -45,72 +45,6 @@
 
 
 // =============================================================================
-//      WRAPPERS TO LOAD AND SAVE FILES
-// =============================================================================
-// these are just wrappers to use the dialog functions
-// in OSDialog's library and adapt them to our own use
-
-
-string GetLoadFilePath( const char* Filters, const std::string& Directory = EmulatorFolder )
-{
-    // pause emulation at window events to
-    // ensure sound is restored after them
-    bool WasRunning = Emulator.IsPowerOn() && !Emulator.IsPaused();
-    
-    if( WasRunning )
-      Emulator.Pause();
-    
-    // show the dialog with the requested filter
-    osdialog_filters* ParsedFilters = osdialog_filters_parse( Filters );
-    char* FilePath = osdialog_file( OSDIALOG_OPEN, Directory.c_str(), "", ParsedFilters );
-    osdialog_filters_free( ParsedFilters );
-    
-    // resume emulation if needed
-    if( WasRunning )
-      Emulator.Resume();
-    
-    // when cancelled, return empty string
-    if( !FilePath )
-      return "";
-    
-    // we need to save the result in a string
-    string Result = FilePath;
-    free( FilePath );
-    return Result;
-}
-
-// -----------------------------------------------------------------------------
-
-string GetSaveFilePath( const char* Filters, const std::string& Directory = EmulatorFolder )
-{
-    // pause emulation at window events to
-    // ensure sound is restored after them
-    bool WasRunning = Emulator.IsPowerOn() && !Emulator.IsPaused();
-    
-    if( WasRunning )
-      Emulator.Pause();
-    
-    // show the dialog with the requested filter
-    osdialog_filters* ParsedFilters = osdialog_filters_parse( Filters );
-    char* FilePath = osdialog_file( OSDIALOG_SAVE, Directory.c_str(), "", ParsedFilters );
-    osdialog_filters_free( ParsedFilters );
-    
-    // resume emulation if needed
-    if( WasRunning )
-      Emulator.Resume();
-    
-    // when cancelled, return empty string
-    if( !FilePath )
-      return "";
-    
-    // we need to save the result in a string
-    string Result = FilePath;
-    free( FilePath );
-    return Result;
-}
-
-
-// =============================================================================
 //      DELAYED MESSAGE BOX FUNCTIONS
 // =============================================================================
 // these are needed because in full screen, showing a
@@ -420,9 +354,6 @@ void GUI_CreateMemoryCard( string MemoryCardPath )
 {
     try
     {
-        if( MemoryCardPath.empty() )
-          MemoryCardPath = GetSaveFilePath( "Vircon32 cards (*.memc):memc" );
-        
         if( !MemoryCardPath.empty() )
         {
             // ensure path has the proper extension
@@ -474,9 +405,6 @@ void GUI_LoadMemoryCard( string MemoryCardPath )
 {
     try
     {
-        if( MemoryCardPath.empty() )
-          MemoryCardPath = GetLoadFilePath( "Vircon32 cards (*.memc):memc", LastMemoryCardDirectory );
-        
         if( !MemoryCardPath.empty() )
         {
             LastMemoryCardDirectory = GetPathDirectory( MemoryCardPath );
@@ -500,9 +428,6 @@ void GUI_ChangeMemoryCard( string MemoryCardPath )
 {
     try
     {
-        if( MemoryCardPath.empty() )
-          MemoryCardPath = GetLoadFilePath( "Vircon32 cards (*.memc):memc", LastMemoryCardDirectory );
-        
         if( !MemoryCardPath.empty() )
         {
             LastMemoryCardDirectory = GetPathDirectory( MemoryCardPath );
@@ -582,9 +507,6 @@ void GUI_LoadCartridge( string CartridgePath )
 {
     try
     {
-        if( CartridgePath.empty() )
-          CartridgePath = GetLoadFilePath( "Vircon32 roms (*.v32):v32", LastCartridgeDirectory );
-        
         if( !CartridgePath.empty() )
         {
             LastCartridgeDirectory = GetPathDirectory( CartridgePath );
@@ -622,9 +544,6 @@ void GUI_ChangeCartridge( string CartridgePath )
 {
     try
     {
-        if( CartridgePath.empty() )
-          CartridgePath = GetLoadFilePath( "Vircon32 roms (*.v32):v32", LastCartridgeDirectory );
-        
         if( !CartridgePath.empty() )
         {
             LastCartridgeDirectory = GetPathDirectory( CartridgePath );
@@ -654,61 +573,6 @@ void GUI_ChangeCartridge( string CartridgePath )
     {
         string Message = Texts( TextIDs::Errors_ChangeCartridge_Label ) + string(e.what());
         DelayedMessageBox( SDL_MESSAGEBOX_ERROR, "Error", Message.c_str() );
-    }
-}
-
-// -----------------------------------------------------------------------------
-
-void GUI_SaveScreenshot( string FilePath )
-{
-    try
-    {
-        // if a path is not provided, an automatic
-        // file name is created with time and date
-        if( FilePath.empty() )
-        {
-            // obtain current time
-            time_t CreationTime;
-            time( &CreationTime );
-            struct tm* CreationTimeInfo = localtime( &CreationTime );
-            
-            // determine a file name from current date and time
-            // (Careful! C gives year counting from 1900)
-            char FileName[ 40 ];
-            
-            snprintf
-            (
-                FileName,
-                24,
-                "%04hd-%02hhd-%02hhd %02hhd.%02hhd.%02hhd.png",
-                CreationTimeInfo->tm_year+1900,
-                CreationTimeInfo->tm_mon+1,
-                CreationTimeInfo->tm_mday,
-                CreationTimeInfo->tm_hour,
-                CreationTimeInfo->tm_min,
-                CreationTimeInfo->tm_sec
-            );
-            
-            // place the screenshot in the screenshots subfolder
-            FilePath = EmulatorFolder + "Screenshots" + PathSeparator + FileName;
-        }
-        
-        // now just call the screenshot save function
-        SaveScreenshot( FilePath );
-        
-        // report success
-        DelayedMessageBox
-        (
-            SDL_MESSAGEBOX_INFORMATION,
-            Texts( TextIDs::Dialogs_Done ),
-            Texts( TextIDs::Dialogs_ScreenshotSaved_Label )
-        );
-    }
-    
-    catch( exception& e )
-    {
-        string MessageBoxText = Texts( TextIDs::Errors_SaveScreenshot_Label ) + string(e.what());
-        DelayedMessageBox( SDL_MESSAGEBOX_ERROR, "Error", MessageBoxText.c_str() );
     }
 }
 
@@ -1145,10 +1009,6 @@ void ProcessMenuOptions()
         
         ImGui::EndMenu();
     }
-    
-    // allow to take a screenshot only when console is turned on
-    if( ImGui::MenuItem( Texts(TextIDs::Options_Screenshot), nullptr, false, Emulator.IsPowerOn() ) )
-      GUI_SaveScreenshot();
     
     ImGui::EndMenu();
 }

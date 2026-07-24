@@ -446,10 +446,6 @@ int main( int NumberOfArguments, char* Arguments[] )
                                 GUI_UnloadCartridge();
                         }
                         
-                        // Ctrl+S = Save Screenshot
-                        if( Key == SDLK_s )
-                          GUI_SaveScreenshot();
-                        
                         // Ctrl+1 = Zoom 1X
                         if( Key == SDLK_1 )
                           SetWindowZoom( 1 );

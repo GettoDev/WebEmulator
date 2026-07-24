@@ -10,15 +10,6 @@
 
 
 // =============================================================================
-//      WRAPPERS TO LOAD AND SAVE FILES
-// =============================================================================
-
-
-std::string GetLoadFilePath( const char* Filters, const std::string& Directory );
-std::string GetSaveFilePath( const char* Filters, const std::string& Directory );
-
-
-// =============================================================================
 //      DELAYED MESSAGE BOX FUNCTIONS
 // =============================================================================
 
