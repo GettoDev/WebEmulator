@@ -7,10 +7,11 @@ This will be much less feature rich than the regular emulator, since it is meant
 ----------------------------------
 ### What is removed here?
 
-- The controls editor program.
 - Any settings for a specific operating system.
 - The ability to load and save settings: defaults are used.
 - The ability to load and save controls: default keyboard keys are used.
+- The controls editor program.
+- Support for joysticks and gamepads.
 - Support for savestates.
 - Options to change screen size end go full screen.
 - It can only load a cartridge from the command line.

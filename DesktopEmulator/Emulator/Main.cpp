@@ -142,18 +142,11 @@ int main( int NumberOfArguments, char* Arguments[] )
             SDL_INIT_VIDEO      |
             SDL_INIT_AUDIO      |
             SDL_INIT_TIMER      |
-            SDL_INIT_EVENTS     |
-            SDL_INIT_JOYSTICK
+            SDL_INIT_EVENTS
         );
         
         if( SDL_Init( SDLSubsystems ) != 0 )
           THROW( string("Cannot initialize SDL: ") + SDL_GetError() );
-        
-        // enable SDL joystick events
-        SDL_JoystickEventState( SDL_ENABLE );
-        
-        // begin connection to SDL joysticks
-        Gamepads.OpenAllJoysticks();
         
         // we need to create a window for SDL to receive any events
         Video.CreateOpenGLWindow();
@@ -492,9 +485,6 @@ int main( int NumberOfArguments, char* Arguments[] )
         LOG( "---------------------------------------------------------------------" );
         LOG( "    Performing terminations" );
         LOG( "---------------------------------------------------------------------" );
-        
-        // end connection to SDL joysticks
-        Gamepads.CloseAllJoysticks();
         
         // shut down audio
         LOG( "Terminating audio" );

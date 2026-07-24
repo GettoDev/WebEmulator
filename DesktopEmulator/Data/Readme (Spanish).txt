@@ -59,17 +59,10 @@ Ventana del programa
 
 Cómo cargar juegos
 
-    Vircon32 es un emulador, así que para que funcione necesitas
-    insertar un cartucho virtual, también llamado archivo ROM, y
-    luego encender la consola.
-
-    En esta consola la ranura del cartucho se bloquea cuando la
-    consola está encendida, con lo cual para quitar un cartucho
-    o cambiarlo por otro tendrás que apagar primero la consola.
-
-    También puedes abrir un juego simplemente con doble click en
-    el archivo ROM *.v32 y, en el diálogo "Abrir con...", elegir
-    el emulador de Vircon32 como programa para abrirlo.
+    Esta versión del emulador sólo soporta cargar un juego al
+    iniciar, a través de la línea de comando. Para ello, pasa
+    la ruta de la ROM del juego como único argumento del
+    programa.
     
 ------------------------------------------------------------
 
@@ -83,72 +76,7 @@ Controles
       - Botones Y,X: Teclas 'A','S'
       - Botones B,A: Teclas 'Z','X'
       - Botón Start: Tecla 'Return'
-
-    El emulador también soporta el uso de uno o más joysticks
-    (esta consola tiene 4 puertos para mandos).
   
-------------------------------------------------------------
-
-Botón de Comando
-
-    Emuladores como éste a menudo se usan desde muebles arcade
-    o interfaces tipo front-end. En esas situaciones puede ser
-    deseable tener acceso a ciertas funciones del emulador
-    usando sólo los mandos.
-    
-    Para permitir esto, el emulador permite que cada perfil de
-    teclado/joystick defina y mapee un botón adicional opcional
-    llamado botón de Comando. Este botón no es parte del mando
-    de Vircon32, pero definirlo nos permite invocar unas
-    algunas funciones principales del emulador usando las
-    siguientes combinaciones de botones:
-    
-      - Comando + Start: Cerrar emulador
-      - Comando + X: Reset
-    
-    Estas combinaciones pueden usarse desde cualquiera de los
-    4 mandos de la consola. La forma de pulsar una combinación
-    es pulsar el segundo botón mientras se mantiene pulsado el
-    botón de Comando.
-
-------------------------------------------------------------
-
-Cómo usar tarjetas de memoria
-
-    Cuando algún cartucho de Vircon32 necesita guardar/cargar
-    datos entre sesiones, necesitará una tarjeta de memoria para
-    preservar la información guardada.
-    
-    Hay 2 modos de gestionar las tarjetas de memoria. Puedes
-    elegir cuál usar desde el menú de opciones.
-    
-    Automática (opción por defecto):
-    
-      El emulador crea automáticamente una tarjeta de memoria
-      nueva para cada juego que abramos. Las guarda en la
-      subcarpeta "Cards" del propio emulador.
-      
-      Este modo es el mismo que usa el núcleo Vircon32 en
-      RetroArch. También funcionan así muchos otros emuladores.
-    
-    Manual:
-    
-      El emulador no creará ni usará tarjetas automáticamente.
-      En vez de eso, desd el menú de tarjeta de memoria podrás
-      crear nuevas tarjetas y decidir cuándo ponerlas y quitarlas.
-      
-      Este modo refleja la manera en que usaríamos una consola
-      física, manejando las tarjetas y cartuchos nosotros mismos.
-      
-    vez que un juego escriba en ella, esa tarjeta sólo la
-    reconocerá ese mismo juego, así que necesitarás una tarjeta
-    para cada juego en donde quieras guardar partida.
-
-    Si usas el modo manual, ¡ten cuidado de usar la tarjeta de
-    memoria correcta en cada cartucho! Cada juego debería
-    comprobar si los datos de la tarjeta pertenecen a otros
-    cartuchos, pero no hay garantías de que realmente lo hagan.
-
 ------------------------------------------------------------
 
 Novedades en la versión 26.02.18

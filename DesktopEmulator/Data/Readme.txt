@@ -58,17 +58,9 @@ The program window
 
 How to load games
 
-    Vircon32 is an emulator, so for it to work you will need to
-    insert a virtual cartridge, also called a ROM file, and then
-    power on the console.
-
-    In this console the cartridge slot becomes locked when the
-    console is powered on, so to release a cartridge or replace
-    it with another you will need to power off the console first.
-
-    You can also open a game by just double-clicking a *.v32
-    ROM file and, in the "Open with..." dialog, selecting the
-    Vircon32 emulator as program to open it.
+    This version of the emulator only supports loading a game
+    at startup, through command line. For that, pass the path
+    to the game ROM as the only program argument.
     
 ------------------------------------------------------------
 
@@ -82,66 +74,6 @@ Controls
       - Buttons Y,X: Keys 'A','S'
       - Buttons B,A: Keys 'Z','X'
       - Button Start: Key 'Return'
-
-    The emulator also supports the use of one or more joysticks
-    (since this console has 4 gamepad ports).
-
-------------------------------------------------------------
-
-Command button
-
-    Emulators such as this are often used within arcade setups
-    or front-end programs. In these situations it is desirable
-    to be able to access certain emulator functions using only
-    the gamepads.
-    
-    To allow for this, the emulator program allows every
-    keyboard/joystick profile to define and map an optional
-    additional button called the Command button. This button
-    is not part of the Vircon32 gamepad, but defining it will
-    allow you to trigger a few core emulator functions using
-    the following button combinations:
-    
-      - Command + Start: Quit emulator
-      - Command + X: Reset
-    
-    These combinations can be used from any of the 4 console
-    gamepads. The intended way to press a combination is to
-    press the second button while keeping Command button held.
-
-------------------------------------------------------------
-
-How to use memory cards
-
-    When some Vircon32 cartridge needs to save/load data between
-    sessions, it will need a memory card to preserve any saved
-    information.
-
-    There are 2 modes you can choose to manage memory cards. You
-    can choose which one to use from the options menu.
-    
-    Automatic (default option):
-    
-      The emulator automatically creates a new memory card for
-      each game we open. It saves them in subfolder "Cards"
-      within the emulador folder.
-      
-      This mode is the same one used by the Vircon32 core for
-      RetroArch. Many other emulators also work like this.
-    
-    Manual:
-    
-      The emulator will not create or use cards automatically.
-      Instead, from the memory card menu you can create new
-      cards and decide when to load and remove them.
-      
-      This mode mirrors the way you would use a physical
-      console, handling the cards and cartridges ourselves.
-    
-    If you use manual mode, be careful to use the right memory
-    card for each cartridge! Each game should check that the
-    data in the card does not belong to other cartridges, but
-    there is no guarantee that it actually will.
 
 ------------------------------------------------------------
 
