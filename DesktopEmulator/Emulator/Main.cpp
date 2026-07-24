@@ -31,11 +31,6 @@
     #include <imgui/imgui_impl_sdl.h>       // [ Dear ImGui ] SDL2 backend header
     #include <imgui/imgui_impl_opengl3.h>   // [ Dear ImGui ] OpenGL 3 backend header
     
-    // on Linux, include GTK headers
-    #if defined(__linux__)
-      #include <gtk/gtk.h>      // [ GTK ] Main header
-    #endif
-    
     // on Windows include headers for unicode conversion
     #if defined(__WIN32__) || defined(_WIN32) || defined(_WIN64)
       #define WINDOWS_OS
@@ -262,12 +257,6 @@ int main( int NumberOfArguments, char* Arguments[] )
         string WindowTitle = string("Vircon32: ") + Texts( TextIDs::Status_NoCartridge );
         SDL_SetWindowTitle( Video.GetWindow(), WindowTitle.c_str() );
         SDL_SetWindowPosition( Video.GetWindow(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED );
-        
-        // on linux, initialize GTK
-        #if defined(__linux__)
-          LOG( "Initializing GTK" );
-          gtk_init( &NumberOfArguments, &Arguments );
-        #endif
         
         // -----------------------------------------------------------------------------
         

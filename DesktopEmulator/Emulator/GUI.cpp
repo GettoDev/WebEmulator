@@ -22,9 +22,6 @@
     #include <time.h>               // [ ANSI C ] Time and date
     #include <stdexcept>            // [ C++ STL ] Exceptions
     
-    // include osdialog headers
-    #include <osdialog/osdialog.h>  // [ Dear ImGui ] Main header
-    
     // include libpng headers
     #include <png.h>                // [ libpng ] Main header
     
