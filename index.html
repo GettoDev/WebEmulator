@@ -1,0 +1,323 @@
+<!doctypehtml>
+
+<html lang=es>
+
+<head>
+
+<meta charset=UTF-8>
+
+<meta content="width=device-width,initial-scale=1"name=viewport>
+
+<title>Vircon32: Emulador Web</title>
+
+<link rel="icon" type="image/png" href="logo.png">
+
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background-color:#406270;color:#eee;font-family:Garamond,Georgia,serif;font-size:16px;min-height:100vh;display:flex;flex-direction:column;align-items:center}.site-header{width:100%;background-color:#033d4a;border-bottom:2px solid #76d9ff;padding:16px 30px;display:flex;align-items:baseline;gap:16px}.logo-text{font-family:Verdana,Helvetica,sans-serif;font-size:1.75rem;font-weight:700;color:#71c8ea;letter-spacing:1px;display:flex;align-items:center;gap:12px;text-decoration:none}.logo-text img{height:48px;width:auto;display:block}.header-sub{font-family:Arial,Helvetica,sans-serif;font-size:.9rem;color:silver;border-left:2px solid #76d9ff;padding-left:14px}.main-content{width:100%;max-width:980px;padding:26px 30px 40px 30px}.page-title{font-family:Verdana,Helvetica,sans-serif;font-size:1.35rem;font-weight:700;color:#71c8ea;background-color:#033d4a;border-left:5px solid #76d9ff;padding:9px 18px;margin-bottom:22px}.section-title{font-family:Arial,Helvetica,sans-serif;font-size:.95rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #76d9ff;padding-bottom:5px;margin:20px 0 12px 0}.emulator-layout{display:grid;grid-template-columns:1fr 250px;gap:20px;align-items:start}.screen-wrap{background-color:#000;border:2px solid #76d9ff;box-shadow:0 0 18px rgba(118,217,255,.18),inset 0 0 30px rgba(0,0,0,.8);position:relative}.screen-wrap canvas{width:100%;aspect-ratio:16/9;display:block;image-rendering:pixelated}.loading-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(3,29,36,.97);color:#71c8ea;font-family:Arial,Helvetica,sans-serif;font-size:.95rem;gap:14px;z-index:20}.spinner{width:42px;height:42px;border:3px solid rgba(118,217,255,.12);border-top-color:#76d9ff;border-radius:50%;animation:spin 1s linear infinite}.status-bar{margin-top:8px;background-color:#022830;border:1px solid #76d9ff;padding:8px 14px;font-family:'Courier New',Courier,monospace;font-size:.83rem;color:#0df;display:flex;align-items:center;gap:8px;min-height:36px}.status-cursor{color:#76d9ff;font-size:.75rem;flex-shrink:0;animation:blink 1.2s step-end infinite}.power-row{margin-top:7px;display:flex;align-items:center;gap:8px;font-family:Arial,Helvetica,sans-serif;font-size:.78rem;color:#818181}.led{width:9px;height:9px;border-radius:50%;background:#444;flex-shrink:0}.led.on{background:#39ff14;box-shadow:0 0 7px #39ff14,0 0 14px rgba(57,255,20,.45)}.controls-panel{background-color:#033d4a;border:1px solid #76d9ff;padding:16px}.ctrl-group{margin-bottom:16px}.ctrl-label{display:block;font-family:Arial,Helvetica,sans-serif;font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#0df;margin-bottom:6px}.file-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background-color:#2a4c59;border:1px dashed rgba(118,217,255,.4);color:silver;font-family:Arial,Helvetica,sans-serif;font-size:.83rem;padding:10px 12px;cursor:pointer;transition:background .2s,border-color .2s,color .2s}.file-btn:hover{background-color:#034a3d;border-color:#76d9ff;color:#fff}.file-btn input[type=file]{display:none}.file-btn svg{width:15px;height:15px;fill:currentColor;flex-shrink:0}.save-btn{display:block;width:100%;margin-top:7px;background-color:#022830;border:1px solid rgba(0,221,255,.35);color:#0df;font-family:Arial,Helvetica,sans-serif;font-size:.82rem;padding:9px 12px;cursor:pointer;transition:background .2s,border-color .2s;text-align:center}.save-btn:hover{background-color:#033d4a;border-color:#0df}.ctrl-note{font-family:Garamond,Georgia,serif;font-size:.9rem;color:silver;line-height:1.5}.kbd-table{width:100%;border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;font-size:.86rem;margin-top:4px}.kbd-table tr{border-bottom:1px solid rgba(118,217,255,.1)}.kbd-table tr:hover{background-color:rgba(3,61,74,.55)}.kbd-table td{padding:7px 10px;color:silver}.kbd-table td:first-child{color:#eee;width:58%}kbd{background:#1a1a1a;border:1px solid #444;border-bottom-width:2px;border-radius:3px;color:#76d9ff;font-family:'Courier New',Courier,monospace;font-size:.79rem;padding:2px 7px;white-space:nowrap}.site-footer{width:100%;background-color:#033d4a;padding:12px 30px;text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:.8rem;color:#818181;margin-top:auto}.site-footer a{color:#71c8ea;text-decoration:none}.site-footer a:hover{text-decoration:underline}@keyframes spin{to{transform:rotate(360deg)}}@keyframes blink{50%{opacity:0}}@media (max-width:750px){.emulator-layout{grid-template-columns:1fr}.main-content{padding:18px 14px 30px 14px}.header-sub{display:none}}</style>
+
+</head>
+
+<body>
+
+<header class=site-header>
+
+<span class=logo-text>
+
+<img src="logo.png" alt="Vircon32">
+
+</span> 
+
+<span class=header-sub>Emulador Web — videoconsola virtual de 32 bits
+
+</span>
+
+</header>
+
+<div class=main-content>
+
+<div class=page-title>Emulador Web de Vircon32
+
+</div>
+
+<div class=emulator-layout>
+
+<div>
+
+<div class=screen-wrap>
+
+<div class=loading-overlay id=loading>
+
+<div class=spinner>
+
+</div>
+
+<span>Inicializando WebAssembly...
+
+</span>
+
+</div>
+
+<canvas height=360 id=canvas oncontextmenu=event.preventDefault() tabindex=-1 width=640>
+
+</canvas>
+
+</div>
+
+<div class=status-bar>
+
+<span class=status-cursor>>
+
+</span> 
+
+<span id=status>Esperando cartucho ROM (.v32)...
+
+</span>
+
+</div>
+
+<div class=power-row>
+
+<span class="led on"id=powerLed>
+
+</span> 
+
+<span>Consola encendida — sistema en linea
+
+</span>
+
+</div>
+
+</div>
+
+<div class=controls-panel>
+
+<div class=section-title>Consola
+
+</div>
+
+<div class=ctrl-group>
+
+<span class=ctrl-label>Ranura de cartucho
+
+</span> 
+
+<label class=file-btn>
+
+<input accept=.v32 id=romFileInput type=file> 
+
+<svg viewBox="0 0 24 24">
+
+<path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+
+</svg> Insertar cartucho (.v32)
+
+</label>
+
+</div>
+
+<div class=ctrl-group>
+
+<span class=ctrl-label>Memory Card
+
+</span> 
+
+<label class=file-btn>
+
+<input accept=.memc id=memoryCardInput type=file> 
+
+<svg viewBox="0 0 24 24">
+
+<path d="M20 6H4v12h16V6zm-2 10H6v-2h12v2zm0-4H6v-2h12v2z"/>
+
+</svg> Cargar tarjeta (.memc)
+
+</label> 
+
+<button class=save-btn onclick=saveMemoryCard()>Guardar tarjeta (.memc)
+
+</button>
+
+</div>
+
+<div class=ctrl-group>
+
+<span class=ctrl-label>Audio
+
+</span>
+
+<p class=ctrl-note>Se inicia con el juego.
+
+<br>Usa 
+
+<kbd>CTRL+M
+
+</kbd> para silenciar.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class=section-title>Controles de teclado
+
+</div>
+
+<table class=kbd-table>
+
+<tbody>
+
+<tr>
+
+<td>Pausar / Reanudar
+
+</td>
+
+<td>
+
+<kbd>ESC
+
+</kbd>
+
+</td>
+
+</tr>
+
+<tr>
+
+<tr>
+
+<td>Resetear consola
+
+</td>
+
+<td>
+
+<kbd>F5
+
+</kbd>
+
+</td>
+
+</tr>
+
+<td>Encender / Apagar
+
+</td>
+
+<td>
+
+<kbd>CTRL+P
+
+</kbd>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Silenciar audio
+
+</td>
+
+<td>
+
+<kbd>CTRL+M
+
+</kbd>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Gamepad 1 — Direcciones
+
+</td>
+
+<td>
+
+<kbd>Flechas
+
+</kbd>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Gamepad 1 — A / B / X / Y
+
+</td>
+
+<td>
+
+<kbd>X
+
+</kbd> 
+
+<kbd>Z
+
+</kbd> 
+
+<kbd>S
+
+</kbd> 
+
+<kbd>A
+
+</kbd>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Gamepad 1 — L / R / Start
+
+</td>
+
+<td>
+
+<kbd>Q
+
+</kbd> 
+
+<kbd>W
+
+</kbd> 
+
+<kbd>Espacio
+
+</kbd>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<footer class=site-footer>
+    Vircon32 &mdash; videoconsola virtual de 32 bits &mdash; proyecto libre y de codigo abierto &mdash;
+    <a href="https://www.vircon32.com" target="_blank">vircon32.com</a>
+    &mdash; Powered by <a href="https://gettodev.github.io/" target="_blank">GettoDev</a>
+</footer>
+
+<script>function updateStatus(t){var u=document.getElementById("status");u&&(u.textContent=t)}window.updateEmulatorStatus=updateStatus</script>
+
+<script src=web_interface.js></script>
+
+{{{ SCRIPT }}}
+
+</body>
+
+</html>
